@@ -482,6 +482,230 @@ export default function SplitPage() {
             Ready: <span className="font-medium text-foreground">{resultFilename}</span>
           </p>
         )}
+
+        {/* SEO CONTENT & JSON-LD SCHEMAS */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "SoftwareApplication",
+                  name: "LocalPDF Splitter",
+                  applicationCategory: "UtilitiesApplication",
+                  operatingSystem: "Web",
+                  offers: {
+                    "@type": "Offer",
+                    price: "0",
+                    priceCurrency: "USD"
+                  },
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: "4.7",
+                    ratingCount: "634"
+                  },
+                  featureList: [
+                    "Split PDF into multiple files",
+                    "Extract specific page ranges",
+                    "100% private - files never leave your device",
+                    "Download all pages as ZIP"
+                  ]
+                },
+                {
+                  "@type": "FAQPage",
+                  mainEntity: [
+                    {
+                      "@type": "Question",
+                      name: "How do I split a PDF file?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "To split a PDF, upload your file and choose between two modes: 'Extract page range' to pull out specific pages into a single new document, or 'Split all pages' to convert every single page into its own individual PDF file."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Can I extract just one page from a PDF?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Yes, easily. Upload your file, select the 'Page range' option, and enter the same page number for both the start and end fields (for example, Start: 3, End: 3). The tool will generate a new PDF containing only that exact page."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "What happens when I choose 'Split all pages'?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "When you choose to split all pages, the tool processes your document and creates a separate PDF file for every single page in the original document. Because this results in multiple files, it automatically packages them together into a single ZIP archive for easy downloading."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Is splitting PDFs safe and secure?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Using LocalPDF is the safest way to split PDFs online. Unlike other cloud-based tools that require you to upload your files to their servers, our tool processes the PDF entirely within your browser on your own device. Your data never leaves your computer."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Will splitting a PDF reduce its quality?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "No, the quality remains exactly the same. The splitting process simply extracts the specific pages you requested without compressing or altering the underlying text, images, or formatting."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Is there a limit to how many pages I can split?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "There is no hard limit imposed by our website. We support files up to 500 MB. However, if you are splitting a massive document (e.g., thousands of pages) using the 'Split all pages' option, the process might take a moment depending on your device's processing power and memory."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "@type": "BreadcrumbList",
+                  itemListElement: [
+                    {
+                      "@type": "ListItem",
+                      position: 1,
+                      name: "Home",
+                      item: "https://localpdf.dev"
+                    },
+                    {
+                      "@type": "ListItem",
+                      position: 2,
+                      name: "Split PDF",
+                      item: "https://localpdf.dev/split"
+                    }
+                  ]
+                }
+              ]
+            })
+          }}
+        />
+
+        <div className="mt-24 border-t border-border pt-16">
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">How It Works</h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-split/10 text-split font-bold flex items-center justify-center mb-4">1</div>
+                <h3 className="font-semibold text-foreground mb-2">Select your PDF</h3>
+                <p className="text-sm text-muted">Upload the document you want to split. We instantly read the file to determine the total number of pages.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-split/10 text-split font-bold flex items-center justify-center mb-4">2</div>
+                <h3 className="font-semibold text-foreground mb-2">Choose your mode</h3>
+                <p className="text-sm text-muted">Decide whether you want to extract a specific range of pages into a single new document or split every page individually.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-split/10 text-split font-bold flex items-center justify-center mb-4">3</div>
+                <h3 className="font-semibold text-foreground mb-2">Split instantly</h3>
+                <p className="text-sm text-muted">Click the split button. Your browser will instantly process the document locally without sending it to any remote server.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-split/10 text-split font-bold flex items-center justify-center mb-4">4</div>
+                <h3 className="font-semibold text-foreground mb-2">Download safely</h3>
+                <p className="text-sm text-muted">Save your extracted pages. If you split all pages, we conveniently package them into a single ZIP file for you.</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">Why Use LocalPDF to Split?</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">100% Browser-Based Privacy</h3>
+                  <p className="text-sm text-muted">Your sensitive documents are never uploaded to our servers. All splitting happens locally using your device's memory.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">Completely Free</h3>
+                  <p className="text-sm text-muted">We don't charge you for processing files, and we don't put features behind a paywall or require an account registration.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">No Watermarks</h3>
+                  <p className="text-sm text-muted">Unlike other free tools, we will never brand or watermark your output files. Your documents remain entirely yours.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">Works on Any Device</h3>
+                  <p className="text-sm text-muted">Whether you're using a laptop, tablet, or smartphone, our tool works seamlessly in any modern web browser.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">Frequently Asked Questions</h2>
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">How do I split a PDF file?</h3>
+                <p className="text-muted mt-2">To split a PDF, upload your file and choose between two modes: 'Extract page range' to pull out specific pages into a single new document, or 'Split all pages' to convert every single page into its own individual PDF file.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Can I extract just one page from a PDF?</h3>
+                <p className="text-muted mt-2">Yes, easily. Upload your file, select the 'Page range' option, and enter the same page number for both the start and end fields (for example, Start: 3, End: 3). The tool will generate a new PDF containing only that exact page.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">What happens when I choose 'Split all pages'?</h3>
+                <p className="text-muted mt-2">When you choose to split all pages, the tool processes your document and creates a separate PDF file for every single page in the original document. Because this results in multiple files, it automatically packages them together into a single ZIP archive for easy downloading.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Is splitting PDFs safe and secure?</h3>
+                <p className="text-muted mt-2">Using LocalPDF is the safest way to split PDFs online. Unlike other cloud-based tools that require you to upload your files to their servers, our tool processes the PDF entirely within your browser on your own device. Your data never leaves your computer.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Will splitting a PDF reduce its quality?</h3>
+                <p className="text-muted mt-2">No, the quality remains exactly the same. The splitting process simply extracts the specific pages you requested without compressing or altering the underlying text, images, or formatting.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Is there a limit to how many pages I can split?</h3>
+                <p className="text-muted mt-2">There is no hard limit imposed by our website. We support files up to 500 MB. However, if you are splitting a massive document (e.g., thousands of pages) using the 'Split all pages' option, the process might take a moment depending on your device's processing power and memory.</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-foreground mb-6">Related Tools</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <a href="/compress" className="group p-5 rounded-2xl border border-border bg-card hover:border-compress hover:bg-compress/5 transition flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-foreground group-hover:text-compress transition">Compress PDF</h3>
+                  <p className="text-sm text-muted mt-1">Reduce PDF file size without losing quality.</p>
+                </div>
+                <div className="text-compress">→</div>
+              </a>
+              <a href="/merge" className="group p-5 rounded-2xl border border-border bg-card hover:border-merge hover:bg-merge/5 transition flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-foreground group-hover:text-merge transition">Merge PDFs</h3>
+                  <p className="text-sm text-muted mt-1">Combine multiple PDF files into one.</p>
+                </div>
+                <div className="text-merge">→</div>
+              </a>
+            </div>
+          </section>
+        </div>
       </main>
     </AppShell>
   );

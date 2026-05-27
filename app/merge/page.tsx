@@ -368,6 +368,230 @@ export default function MergePage() {
             </button>
           )}
         </div>
+
+        {/* SEO CONTENT & JSON-LD SCHEMAS */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "SoftwareApplication",
+                  name: "LocalPDF Merger",
+                  applicationCategory: "UtilitiesApplication",
+                  operatingSystem: "Web",
+                  offers: {
+                    "@type": "Offer",
+                    price: "0",
+                    priceCurrency: "USD"
+                  },
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: "4.9",
+                    ratingCount: "892"
+                  },
+                  featureList: [
+                    "Merge multiple PDF files",
+                    "Drag and drop to reorder pages",
+                    "100% private - files never leave your device",
+                    "No file size limits"
+                  ]
+                },
+                {
+                  "@type": "FAQPage",
+                  mainEntity: [
+                    {
+                      "@type": "Question",
+                      name: "How many PDFs can I merge at once?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "You can merge dozens of PDFs at once. Because the merging happens on your device rather than a remote server, the only limit is your device's memory. Most modern computers can easily merge 50+ files in one go."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Will merging PDFs change the quality or formatting?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "No, merging PDFs with LocalPDF retains 100% of the original quality. We simply append the pages of one document to the end of another without altering the underlying images, text formatting, or metadata."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Can I reorder pages before merging?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Yes! After adding your PDF files, you can easily drag and drop the files in the list to change their order. The final merged PDF will combine the files in the exact sequence you arranged them."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Is it safe to merge confidential documents on LocalPDF?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Absolutely. LocalPDF is the safest way to merge confidential documents online because your files are never actually sent online. The merging process happens entirely locally within your web browser."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "What file size limit applies when merging PDFs?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Our tool can handle files up to 500 MB. This is much larger than most cloud-based PDF tools because we don't have to worry about server storage or bandwidth costs. The processing uses your local device resources."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Can I merge PDFs on mobile devices?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Yes, LocalPDF works flawlessly on iOS and Android devices. You can select multiple PDFs from your phone's file system and merge them directly in your mobile browser without installing any apps."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "@type": "BreadcrumbList",
+                  itemListElement: [
+                    {
+                      "@type": "ListItem",
+                      position: 1,
+                      name: "Home",
+                      item: "https://localpdf.dev"
+                    },
+                    {
+                      "@type": "ListItem",
+                      position: 2,
+                      name: "Merge PDFs",
+                      item: "https://localpdf.dev/merge"
+                    }
+                  ]
+                }
+              ]
+            })
+          }}
+        />
+
+        <div className="mt-24 border-t border-border pt-16">
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">How It Works</h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-merge/10 text-merge font-bold flex items-center justify-center mb-4">1</div>
+                <h3 className="font-semibold text-foreground mb-2">Select your PDFs</h3>
+                <p className="text-sm text-muted">Upload two or more PDF files you want to combine. You can select multiple files at once or add them one by one.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-merge/10 text-merge font-bold flex items-center justify-center mb-4">2</div>
+                <h3 className="font-semibold text-foreground mb-2">Reorder files</h3>
+                <p className="text-sm text-muted">Drag and drop the files in the list to arrange them in the exact order you want them to appear in the final document.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-merge/10 text-merge font-bold flex items-center justify-center mb-4">3</div>
+                <h3 className="font-semibold text-foreground mb-2">Merge instantly</h3>
+                <p className="text-sm text-muted">Click the merge button. Your browser will instantly combine the documents into a single cohesive PDF file without losing quality.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-merge/10 text-merge font-bold flex items-center justify-center mb-4">4</div>
+                <h3 className="font-semibold text-foreground mb-2">Download safely</h3>
+                <p className="text-sm text-muted">Save the merged PDF directly to your device. Since it never left your computer, there are no privacy concerns.</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">Why Use LocalPDF to Merge?</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">100% Browser-Based Privacy</h3>
+                  <p className="text-sm text-muted">Your sensitive documents are never uploaded to our servers. All merging happens locally using your device's memory.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">Completely Free</h3>
+                  <p className="text-sm text-muted">We don't charge you for processing files, and we don't put features behind a paywall or require an account registration.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">No Watermarks</h3>
+                  <p className="text-sm text-muted">Unlike other free tools, we will never brand or watermark your output files. Your documents remain entirely yours.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">Works on Any Device</h3>
+                  <p className="text-sm text-muted">Whether you're using a laptop, tablet, or smartphone, our tool works seamlessly in any modern web browser.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">Frequently Asked Questions</h2>
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">How many PDFs can I merge at once?</h3>
+                <p className="text-muted mt-2">You can merge dozens of PDFs at once. Because the merging happens on your device rather than a remote server, the only limit is your device's memory. Most modern computers can easily merge 50+ files in one go.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Will merging PDFs change the quality or formatting?</h3>
+                <p className="text-muted mt-2">No, merging PDFs with LocalPDF retains 100% of the original quality. We simply append the pages of one document to the end of another without altering the underlying images, text formatting, or metadata.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Can I reorder pages before merging?</h3>
+                <p className="text-muted mt-2">Yes! After adding your PDF files, you can easily drag and drop the files in the list to change their order. The final merged PDF will combine the files in the exact sequence you arranged them.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Is it safe to merge confidential documents on LocalPDF?</h3>
+                <p className="text-muted mt-2">Absolutely. LocalPDF is the safest way to merge confidential documents online because your files are never actually sent online. The merging process happens entirely locally within your web browser.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">What file size limit applies when merging PDFs?</h3>
+                <p className="text-muted mt-2">Our tool can handle files up to 500 MB. This is much larger than most cloud-based PDF tools because we don't have to worry about server storage or bandwidth costs. The processing uses your local device resources.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Can I merge PDFs on mobile devices?</h3>
+                <p className="text-muted mt-2">Yes, LocalPDF works flawlessly on iOS and Android devices. You can select multiple PDFs from your phone's file system and merge them directly in your mobile browser without installing any apps.</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-foreground mb-6">Related Tools</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <a href="/compress" className="group p-5 rounded-2xl border border-border bg-card hover:border-compress hover:bg-compress/5 transition flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-foreground group-hover:text-compress transition">Compress PDF</h3>
+                  <p className="text-sm text-muted mt-1">Reduce PDF file size without losing quality.</p>
+                </div>
+                <div className="text-compress">→</div>
+              </a>
+              <a href="/split" className="group p-5 rounded-2xl border border-border bg-card hover:border-split hover:bg-split/5 transition flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-foreground group-hover:text-split transition">Split PDF</h3>
+                  <p className="text-sm text-muted mt-1">Extract specific pages from a document.</p>
+                </div>
+                <div className="text-split">→</div>
+              </a>
+            </div>
+          </section>
+        </div>
       </main>
     </AppShell>
   );

@@ -3,9 +3,9 @@ import Link from "next/link";
 import AppShell from "../components/AppShell";
 
 export const metadata: Metadata = {
-  title: "About — PDFTools",
+  title: "About LocalPDF — Free Private PDF Tools | LocalPDF",
   description:
-    "Learn about PDFTools — a free, browser-based PDF tool built for students, freelancers, and office workers. Your files never leave your device.",
+    "Learn about LocalPDF, the free browser-based PDF toolkit built for privacy. No servers, no data collection — your files never leave your device.",
   alternates: { canonical: "https://localpdf.dev/about" },
 };
 
@@ -38,7 +38,7 @@ const features = [
     ),
     title: "Always Free",
     description:
-      "No subscriptions, no sign-ups, no paywalls. Every tool on PDFTools is free forever. We're supported by non-intrusive ads.",
+      "No subscriptions, no sign-ups, no paywalls. Every tool on LocalPDF is free forever. We're supported by non-intrusive ads.",
   },
   {
     icon: (
@@ -89,10 +89,10 @@ export default function AboutPage() {
             Free · Private · No Sign-up
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-            About <span className="text-accent">PDFTools</span>
+            About <span className="text-accent">LocalPDF</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-            PDFTools is a free, browser-based PDF utility suite that gives you professional document tools without compromising your privacy. Your files never leave your device — period.
+            LocalPDF is a free, browser-based PDF utility suite that gives you professional document tools without compromising your privacy. Based in India, our mission is to provide secure tools where your files never leave your device — period.
           </p>
         </div>
       </section>
@@ -106,7 +106,7 @@ export default function AboutPage() {
               We believe powerful PDF tools should be accessible to everyone — a student in Jaipur submitting their college project, a freelancer in Mumbai sending a polished proposal, or an office worker anywhere in the world managing large document archives.
             </p>
             <p className="mt-4 text-lg leading-relaxed text-muted">
-              Most online PDF tools require uploading your sensitive documents to unknown servers. We built PDFTools differently: every operation — compression, merging, splitting — runs entirely in your browser using modern Web APIs. Close the tab, and your data is gone. It&apos;s not stored anywhere because it was never sent anywhere.
+              Most online PDF tools require uploading your sensitive documents to unknown servers. We built LocalPDF differently: every operation — compression, merging, splitting — runs entirely in your browser using modern Web APIs. Close the tab, and your data is gone. It&apos;s not stored anywhere because it was never sent anywhere.
             </p>
             <p className="mt-4 text-lg leading-relaxed text-muted">
               Our mission is to be the most trusted, most private, and most accessible PDF toolkit on the web — completely free, forever.
@@ -119,7 +119,7 @@ export default function AboutPage() {
       <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
-            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Why choose PDFTools?</h2>
+            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Why choose LocalPDF?</h2>
             <p className="mt-3 text-muted">Everything you need, nothing you don&apos;t.</p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -141,7 +141,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Built for India &amp; the world</h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted leading-relaxed">
-            With over 500 million internet users, India has a huge need for reliable, free productivity tools. PDFTools was built with India in mind — fast on low-bandwidth connections, works on mid-range Android browsers, and never requires an account or subscription. But our tools are equally useful for anyone, anywhere in the world.
+            With over 500 million internet users, India has a huge need for reliable, free productivity tools. LocalPDF was built with India in mind — fast on low-bandwidth connections, works on mid-range Android browsers, and never requires an account or subscription. But our tools are equally useful for anyone, anywhere in the world.
           </p>
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
             {[
@@ -168,13 +168,13 @@ export default function AboutPage() {
           </p>
           <div className="mt-6 flex flex-col items-center gap-4">
             <a
-              href="mailto:hello@pdftools.app"
+              href="mailto:localpdf.tool@gmail.com"
               className="inline-flex items-center gap-2 rounded-xl bg-accent px-8 py-3.5 text-base font-semibold text-white shadow-lg transition hover:bg-accent/90"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
-              hello@pdftools.app
+              localpdf.tool@gmail.com
             </a>
             <Link href="/contact" className="text-sm font-medium text-accent transition hover:underline">
               Or use our contact form →

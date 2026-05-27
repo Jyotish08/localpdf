@@ -4,6 +4,7 @@ import "./globals.css";
 import ThemeProvider from "./components/ThemeProvider";
 import FileHistoryProvider from "./components/FileHistoryProvider";
 import ToastManager from "./components/ToastManager";
+import CookieConsent from "./components/CookieConsent";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,11 +14,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "PDFTools — Free Online PDF Tools",
-    template: "%s | PDFTools",
+    default: "LocalPDF — Free Online PDF Tools | Compress Merge Split",
+    template: "%s | LocalPDF",
   },
   description:
-    "Compress, merge, and split PDFs entirely in your browser. Free, fast, and 100% private — your files never leave your device. No sign-up required.",
+    "Free online PDF tools that work entirely in your browser. Compress, merge, and split PDFs instantly with no uploads, no registration, and no data stored.",
   keywords: [
     "PDF tools",
     "compress PDF",
@@ -32,26 +33,30 @@ export const metadata: Metadata = {
     "PDF tools India",
     "free PDF compress",
   ],
-  authors: [{ name: "PDFTools" }],
-  creator: "PDFTools",
+  authors: [{ name: "LocalPDF" }],
+  creator: "LocalPDF",
   metadataBase: new URL("https://localpdf.dev"),
   alternates: { canonical: "https://localpdf.dev" },
+  manifest: "/manifest.json",
+  verification: {
+    google: "abc123DEF456ghi789JKL012mno345PQR678stu901",
+  },
   openGraph: {
     type: "website",
-    siteName: "PDFTools",
-    title: "PDFTools — Free Online PDF Tools",
+    siteName: "LocalPDF",
+    title: "LocalPDF — Free Online PDF Tools | Compress Merge Split",
     description:
-      "Compress, merge, and split PDFs entirely in your browser. Free, fast, and 100% private.",
+      "Free online PDF tools that work entirely in your browser. Compress, merge, and split PDFs instantly with no uploads, no registration, and no data stored.",
     url: "https://localpdf.dev",
     images: [
-      { url: "/og-image.png", width: 1200, height: 630, alt: "PDFTools — Free Online PDF Tools" },
+      { url: "/og-image.png", width: 1200, height: 630, alt: "LocalPDF — Free Online PDF Tools" },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PDFTools — Free Online PDF Tools",
+    title: "LocalPDF — Free Online PDF Tools | Compress Merge Split",
     description:
-      "Compress, merge, and split PDFs entirely in your browser. Free, fast, and 100% private.",
+      "Free online PDF tools that work entirely in your browser. Compress, merge, and split PDFs instantly with no uploads, no registration, and no data stored.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -93,6 +98,7 @@ export default function RootLayout({
             <ToastManager />
           </FileHistoryProvider>
         </ThemeProvider>
+        <CookieConsent />
       </body>
     </html>
   );

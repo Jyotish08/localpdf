@@ -11,6 +11,64 @@ export default function HomePage() {
   return (
     <AppShell>
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* JSON-LD Schemas */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  "@id": "https://localpdf.dev/#website",
+                  url: "https://localpdf.dev",
+                  name: "LocalPDF",
+                  description: "Free online PDF tools that work entirely in your browser. Compress, merge, and split PDFs instantly.",
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: {
+                      "@type": "EntryPoint",
+                      urlTemplate: "https://localpdf.dev/search?q={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                  }
+                },
+                {
+                  "@type": "WebApplication",
+                  "@id": "https://localpdf.dev/#webapp",
+                  name: "LocalPDF",
+                  url: "https://localpdf.dev",
+                  description: "Free online PDF tools that work entirely in your browser.",
+                  applicationCategory: "UtilitiesApplication",
+                  operatingSystem: "Web",
+                  offers: {
+                    "@type": "Offer",
+                    price: "0",
+                    priceCurrency: "USD"
+                  },
+                  featureList: [
+                    "Compress PDF files",
+                    "Merge PDF files",
+                    "Split PDF files",
+                    "100% browser-based processing",
+                    "No file uploads"
+                  ]
+                },
+                {
+                  "@type": "Organization",
+                  "@id": "https://localpdf.dev/#organization",
+                  name: "LocalPDF",
+                  url: "https://localpdf.dev",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://localpdf.dev/og-image.png"
+                  }
+                }
+              ]
+            }),
+          }}
+        />
+
         {/* HERO SECTION */}
         <section className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>

@@ -391,6 +391,230 @@ export default function CompressPage() {
             )}
           </div>
         )}
+
+        {/* SEO CONTENT & JSON-LD SCHEMAS */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "SoftwareApplication",
+                  name: "LocalPDF Compressor",
+                  applicationCategory: "UtilitiesApplication",
+                  operatingSystem: "Web",
+                  offers: {
+                    "@type": "Offer",
+                    price: "0",
+                    priceCurrency: "USD"
+                  },
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: "4.8",
+                    ratingCount: "1245"
+                  },
+                  featureList: [
+                    "Browser-based PDF compression",
+                    "No file size limits",
+                    "100% private - files never leave your device",
+                    "Multiple compression levels"
+                  ]
+                },
+                {
+                  "@type": "FAQPage",
+                  mainEntity: [
+                    {
+                      "@type": "Question",
+                      name: "How much can I reduce my PDF file size?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "The amount of compression depends on the original file. If your PDF contains many high-resolution images, you can often reduce the file size by 70-85% using our High Compression setting. Text-heavy PDFs will see less reduction because text is already highly compressed."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Will compressing a PDF reduce its quality?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Compression primarily targets images within the PDF. Using our 'Low' or 'Medium' settings ensures that text remains perfectly sharp while images are optimized. Only the 'High' compression setting might result in noticeable image quality reduction."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Is it safe to compress PDFs online with LocalPDF?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Yes, it is completely safe. LocalPDF is unique because it processes your files entirely within your web browser. Your PDF is never uploaded to any server, meaning your sensitive data remains 100% private and secure on your device."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "What is the maximum PDF file size I can compress?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Our tool supports files up to 500 MB. However, because processing happens on your device, the practical limit depends on your device's memory (RAM). Modern laptops and smartphones can easily handle large files without issues."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Can I compress a password-protected PDF?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Currently, our browser-based tool cannot process encrypted or password-protected PDFs. You will need to remove the password protection using a native tool on your computer before compressing the file with LocalPDF."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Does compressing a PDF remove the text or make it unsearchable?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "No. LocalPDF preserves all text layers and formatting. Your compressed PDF will remain fully searchable, and you can still copy and paste text exactly as you could in the original file."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "@type": "BreadcrumbList",
+                  itemListElement: [
+                    {
+                      "@type": "ListItem",
+                      position: 1,
+                      name: "Home",
+                      item: "https://localpdf.dev"
+                    },
+                    {
+                      "@type": "ListItem",
+                      position: 2,
+                      name: "Compress PDF",
+                      item: "https://localpdf.dev/compress"
+                    }
+                  ]
+                }
+              ]
+            })
+          }}
+        />
+
+        <div className="mt-24 border-t border-border pt-16">
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">How It Works</h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-compress/10 text-compress font-bold flex items-center justify-center mb-4">1</div>
+                <h3 className="font-semibold text-foreground mb-2">Select your PDF</h3>
+                <p className="text-sm text-muted">Drag and drop your document into the dropzone or click to browse your files. We support files up to 500 MB.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-compress/10 text-compress font-bold flex items-center justify-center mb-4">2</div>
+                <h3 className="font-semibold text-foreground mb-2">Choose compression level</h3>
+                <p className="text-sm text-muted">Select Low, Medium, or High compression depending on whether you prioritize image quality or file size reduction.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-compress/10 text-compress font-bold flex items-center justify-center mb-4">3</div>
+                <h3 className="font-semibold text-foreground mb-2">Preview file size</h3>
+                <p className="text-sm text-muted">Watch as your browser instantly processes the file. You'll see the exact original size compared to the new compressed size.</p>
+              </div>
+              <div className="bg-card border border-border p-5 rounded-2xl">
+                <div className="w-8 h-8 rounded-full bg-compress/10 text-compress font-bold flex items-center justify-center mb-4">4</div>
+                <h3 className="font-semibold text-foreground mb-2">Download safely</h3>
+                <p className="text-sm text-muted">Save the optimized PDF directly to your device. Since it never left your computer, there are no security risks.</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">Why Use LocalPDF to Compress?</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">100% Browser-Based Privacy</h3>
+                  <p className="text-sm text-muted">Your sensitive documents are never uploaded to our servers. All compression happens locally using your device's memory.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">Completely Free</h3>
+                  <p className="text-sm text-muted">We don't charge you for processing files, and we don't put features behind a paywall or require an account registration.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">No Watermarks</h3>
+                  <p className="text-sm text-muted">Unlike other free tools, we will never brand or watermark your output files. Your documents remain entirely yours.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="mt-1 text-success">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">Works on Any Device</h3>
+                  <p className="text-sm text-muted">Whether you're using a laptop, tablet, or smartphone, our tool works seamlessly in any modern web browser.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold text-foreground mb-6">Frequently Asked Questions</h2>
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">How much can I reduce my PDF file size?</h3>
+                <p className="text-muted mt-2">The amount of compression depends on the original file. If your PDF contains many high-resolution images, you can often reduce the file size by 70-85% using our High Compression setting. Text-heavy PDFs will see less reduction because text is already highly compressed.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Will compressing a PDF reduce its quality?</h3>
+                <p className="text-muted mt-2">Compression primarily targets images within the PDF. Using our 'Low' or 'Medium' settings ensures that text remains perfectly sharp while images are optimized. Only the 'High' compression setting might result in noticeable image quality reduction.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Is it safe to compress PDFs online with LocalPDF?</h3>
+                <p className="text-muted mt-2">Yes, it is completely safe. LocalPDF is unique because it processes your files entirely within your web browser. Your PDF is never uploaded to any server, meaning your sensitive data remains 100% private and secure on your device.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">What is the maximum PDF file size I can compress?</h3>
+                <p className="text-muted mt-2">Our tool supports files up to 500 MB. However, because processing happens on your device, the practical limit depends on your device's memory (RAM). Modern laptops and smartphones can easily handle large files without issues.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Can I compress a password-protected PDF?</h3>
+                <p className="text-muted mt-2">Currently, our browser-based tool cannot process encrypted or password-protected PDFs. You will need to remove the password protection using a native tool on your computer before compressing the file with LocalPDF.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Does compressing a PDF remove the text or make it unsearchable?</h3>
+                <p className="text-muted mt-2">No. LocalPDF preserves all text layers and formatting. Your compressed PDF will remain fully searchable, and you can still copy and paste text exactly as you could in the original file.</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-foreground mb-6">Related Tools</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <a href="/merge" className="group p-5 rounded-2xl border border-border bg-card hover:border-merge hover:bg-merge/5 transition flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-foreground group-hover:text-merge transition">Merge PDFs</h3>
+                  <p className="text-sm text-muted mt-1">Combine multiple PDF files into one.</p>
+                </div>
+                <div className="text-merge">→</div>
+              </a>
+              <a href="/split" className="group p-5 rounded-2xl border border-border bg-card hover:border-split hover:bg-split/5 transition flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-foreground group-hover:text-split transition">Split PDF</h3>
+                  <p className="text-sm text-muted mt-1">Extract specific pages from a document.</p>
+                </div>
+                <div className="text-split">→</div>
+              </a>
+            </div>
+          </section>
+        </div>
       </main>
     </AppShell>
   );

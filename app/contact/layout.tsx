@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Contact Us | LocalPDF',
-  description: 'Get in touch with the LocalPDF team. We are here to help with any questions about our free PDF tools.',
+  title: 'Contact LocalPDF — Get Help & Support | LocalPDF',
+  description: 'Have questions about LocalPDF? Contact our support team for help with our free PDF tools. We typically respond within 24–48 hours.',
 }
 
 export default function ContactLayout({ children }: { children: React.ReactNode }) {

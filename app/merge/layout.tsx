@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Merge PDFs — PDFTools",
-  description:
-    "Combine multiple PDF files into one document. Everything runs in your browser.",
+  title: "Merge PDF Files Online Free — Combine PDFs Instantly | LocalPDF",
+  description: "Merge multiple PDF files into one online for free. Combine PDFs directly in your browser with no uploads, no watermarks, and complete privacy guaranteed.",
   alternates: { canonical: "https://localpdf.dev/merge" },
 };
 
