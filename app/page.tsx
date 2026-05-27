@@ -104,35 +104,35 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* LIVE DEMO STRIP */}
+        {/* STATS STRIP — honest, static, no fake animations */}
         <section className="mt-24">
-          <div className="overflow-hidden rounded-3xl border border-border bg-card p-1 shadow-sm">
-            <div className="flex flex-col items-center justify-between gap-6 rounded-2xl bg-background px-6 py-8 sm:flex-row sm:px-10">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-light text-accent">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-bold text-foreground">report_final.pdf</p>
-                  <p className="text-sm font-medium text-muted line-through">12.4 MB</p>
-                </div>
+          <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
+            <div className="flex flex-col gap-8 px-8 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-12">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-muted">Why PDFTools?</p>
+                <h2 className="mt-2 text-2xl font-black text-foreground sm:text-3xl">
+                  Compress PDFs by up to{" "}
+                  <span className="text-success">85%</span>
+                </h2>
+                <p className="mt-3 max-w-sm text-muted">
+                  No quality loss for text. Works on any device. Zero uploads ever required.
+                </p>
               </div>
-
-              <div className="flex-1 w-full max-w-sm px-4">
-                <div className="flex items-center justify-between text-xs font-bold text-accent mb-2">
-                  <span>Compressing...</span>
-                  <span>75%</span>
+              <div className="flex items-center gap-6 sm:gap-10">
+                <div className="text-center">
+                  <p className="text-3xl font-black text-foreground">85%</p>
+                  <p className="mt-1 text-xs font-medium text-muted">Max reduction</p>
                 </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-accent-light">
-                  <div className="h-full rounded-full bg-accent animate-demo-progress" />
+                <div className="h-12 w-px bg-border" />
+                <div className="text-center">
+                  <p className="text-3xl font-black text-foreground">0 s</p>
+                  <p className="mt-1 text-xs font-medium text-muted">Upload time</p>
                 </div>
-              </div>
-
-              <div className="text-center sm:text-right">
-                <p className="text-2xl font-black text-success">2.1 MB</p>
-                <p className="text-sm font-bold text-success">Saved 83%</p>
+                <div className="h-12 w-px bg-border" />
+                <div className="text-center">
+                  <p className="text-3xl font-black text-foreground">∞</p>
+                  <p className="mt-1 text-xs font-medium text-muted">No file limit</p>
+                </div>
               </div>
             </div>
           </div>

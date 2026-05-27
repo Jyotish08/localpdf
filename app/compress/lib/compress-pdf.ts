@@ -1,12 +1,9 @@
 import { PDFDocument } from "pdf-lib";
 
-let pdfjsReady = false;
-
 async function getPdfjs() {
   const pdfjs = await import("pdfjs-dist");
-  if (!pdfjsReady && typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
     pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-    pdfjsReady = true;
   }
   return pdfjs;
 }
@@ -58,6 +55,11 @@ export async function compressPdf(
       await page.render({ canvasContext: ctx, viewport, canvas }).promise;
 
       const jpegBytes = await canvasToJpegBytes(canvas, jpegQuality);
+
+      // Release canvas memory immediately (fixes memory leak)
+      canvas.width = 0;
+      canvas.height = 0;
+
       const image = await outPdf.embedJpg(jpegBytes);
       const pdfPage = outPdf.addPage([
         baseViewport.width,
@@ -73,6 +75,9 @@ export async function compressPdf(
 
       page.cleanup();
       onProgress(Math.round((i / numPages) * 100));
+
+      // Yield to the event loop so the UI stays responsive
+      await new Promise<void>((r) => setTimeout(r, 0));
     }
   } finally {
     await pdf.destroy();

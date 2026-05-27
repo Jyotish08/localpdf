@@ -5,6 +5,7 @@ import AppShell from "../components/AppShell";
 export const metadata: Metadata = {
   title: "Blog — PDFTools",
   description: "PDF tips, guides, and tutorials from the PDFTools team. Learn how to compress, merge, split, and manage PDF files efficiently.",
+  alternates: { canonical: "https://localpdf.dev/blog" },
 };
 
 const posts = [

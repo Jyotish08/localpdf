@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AppShell from "../../components/AppShell";
+import DOMPurify from "isomorphic-dompurify";
 
 const posts: Record<
   string,
   {
     title: string;
+    description: string;
     date: string;
     tag: string;
     readTime: string;
@@ -15,6 +17,7 @@ const posts: Record<
 > = {
   "how-to-compress-pdf-without-losing-quality": {
     title: "How to Compress a PDF Without Losing Quality",
+    description: "Large PDFs can be a pain to share over email or WhatsApp. Learn how to shrink your PDF file size while keeping text sharp — all in your browser with no uploads.",
     date: "May 20, 2026",
     tag: "Compress",
     readTime: "4 min read",
@@ -52,6 +55,7 @@ Try PDFTools Compress now — your files never leave your device.`,
   },
   "merge-multiple-pdfs-into-one-free": {
     title: "Merge Multiple PDFs Into One — Free & Instant",
+    description: "Combining multiple PDF documents is a common task for students and professionals. Here’s how to do it instantly for free, right in your browser.",
     date: "May 15, 2026",
     tag: "Merge",
     readTime: "3 min read",
@@ -82,6 +86,7 @@ Give it a try — it takes under 10 seconds.`,
   },
   "split-pdf-extract-specific-pages": {
     title: "How to Split a PDF and Extract Specific Pages",
+    description: "Sometimes you only need a few pages from a large PDF. Whether it’s one chapter from an e-book or a single invoice, splitting PDFs is easier than you think.",
     date: "May 10, 2026",
     tag: "Split",
     readTime: "3 min read",
@@ -114,6 +119,7 @@ PDFTools Split is free, instant, and private. Try it now.`,
   },
   "pdf-privacy-why-you-should-never-upload-documents-online": {
     title: "PDF Privacy: Why You Should Never Upload Sensitive Documents Online",
+    description: "Most online PDF tools upload your files to their servers. For documents containing Aadhaar numbers, bank statements, or medical records, this is a serious privacy risk.",
     date: "May 5, 2026",
     tag: "Privacy",
     readTime: "6 min read",
@@ -156,6 +162,7 @@ For any document you'd be uncomfortable emailing to a stranger, use a client-sid
   },
   "best-pdf-tools-for-students-india": {
     title: "Best Free PDF Tools for Students in India (2026)",
+    description: "From compressing assignment PDFs to merging multiple notes — a complete guide to the best free PDF tools built for Indian students.",
     date: "April 28, 2026",
     tag: "Guide",
     readTime: "5 min read",
@@ -193,6 +200,7 @@ Many popular "free" PDF tools store your uploaded files on their servers. For ac
   },
   "pdf-file-size-reduction-tips": {
     title: "10 Tips to Reduce PDF File Size Before Sending",
+    description: "Email attachments have size limits. WhatsApp blocks files over 100 MB. Master these 10 practical tips to get your PDF under any size limit quickly.",
     date: "April 20, 2026",
     tag: "Tips",
     readTime: "5 min read",
@@ -246,7 +254,8 @@ export async function generateMetadata({
   if (!post) return {};
   return {
     title: `${post.title} — PDFTools Blog`,
-    description: post.title,
+    description: post.description,
+    alternates: { canonical: `https://localpdf.dev/blog/${slug}` },
   };
 }
 
@@ -303,9 +312,10 @@ function renderContent(content: string) {
       }
       elements.push(
         <ul key={`ul-${i}`} className="my-3 list-disc list-inside space-y-1 text-muted">
-          {items.map((item, idx) => (
-            <li key={idx} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }} />
-          ))}
+          {items.map((item, idx) => {
+            const html = item.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+            return <li key={idx} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />;
+          })}
         </ul>
       );
       continue;
@@ -317,7 +327,7 @@ function renderContent(content: string) {
         <p
           key={i}
           className="my-3 text-muted leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: html }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }}
         />
       );
     }
@@ -384,7 +394,7 @@ export default async function BlogPostPage({
 
         {/* Related tools */}
         <div className="mt-10">
-          <h2 className="text-lg font-bold text-foreground mb-5">Try our free PDF tools</h2>
+          <h3 className="text-lg font-bold text-foreground mb-5">Try our free PDF tools</h3>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
               { href: "/compress", label: "Compress PDF", desc: "Reduce file size", varName: "--compress" },

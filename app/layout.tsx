@@ -34,20 +34,25 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "PDFTools" }],
   creator: "PDFTools",
-  metadataBase: new URL("https://pdftools.app"),
+  metadataBase: new URL("https://localpdf.dev"),
+  alternates: { canonical: "https://localpdf.dev" },
   openGraph: {
     type: "website",
     siteName: "PDFTools",
     title: "PDFTools — Free Online PDF Tools",
     description:
       "Compress, merge, and split PDFs entirely in your browser. Free, fast, and 100% private.",
-    url: "https://pdftools.app",
+    url: "https://localpdf.dev",
+    images: [
+      { url: "/og-image.png", width: 1200, height: 630, alt: "PDFTools — Free Online PDF Tools" },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "PDFTools — Free Online PDF Tools",
     description:
       "Compress, merge, and split PDFs entirely in your browser. Free, fast, and 100% private.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,

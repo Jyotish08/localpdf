@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "About — PDFTools",
   description:
     "Learn about PDFTools — a free, browser-based PDF tool built for students, freelancers, and office workers. Your files never leave your device.",
+  alternates: { canonical: "https://localpdf.dev/about" },
 };
 
 const features = [

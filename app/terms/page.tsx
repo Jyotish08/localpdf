@@ -4,6 +4,7 @@ import AppShell from "../components/AppShell";
 export const metadata: Metadata = {
   title: "Terms of Service — PDFTools",
   description: "Terms of Service for PDFTools. Read our acceptable use policy, liability limitations, and intellectual property terms.",
+  alternates: { canonical: "https://localpdf.dev/terms" },
 };
 
 export default function TermsPage() {

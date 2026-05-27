@@ -3,24 +3,27 @@
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { toast } from "sonner";
+import { useFileHistory } from "./FileHistoryProvider";
+
+const MAX_SIZE = 500 * 1024 * 1024; // 500 MB
 
 export default function HeroDropzone() {
   const router = useRouter();
+  const { setPendingFiles } = useFileHistory();
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 0) return;
-
+      // Store files in context so the tool page can auto-load them
+      setPendingFiles(acceptedFiles);
       if (acceptedFiles.length === 1) {
-        // We could store it temporarily, but since we want to avoid complex state management
-        // across routes without a proper context, we'll just redirect for now. The user will
-        // drop the file again on the tool page. In a real app we'd use context/IndexedDB.
         router.push("/compress");
       } else {
         router.push("/merge");
       }
     },
-    [router]
+    [router, setPendingFiles],
   );
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
@@ -28,6 +31,15 @@ export default function HeroDropzone() {
     accept: { "application/pdf": [".pdf"] },
     noClick: true,
     noKeyboard: true,
+    maxSize: MAX_SIZE,
+    onDropRejected: (rejections) => {
+      const err = rejections[0]?.errors[0];
+      if (err?.code === "file-too-large") {
+        toast.error("File exceeds the 500 MB limit.");
+      } else {
+        toast.error(`Only PDF files are accepted. Got: ${rejections[0]?.file.name ?? "unknown"}`);
+      }
+    },
   });
 
   return (
@@ -59,7 +71,7 @@ export default function HeroDropzone() {
       <h3 className="mt-6 text-xl font-bold text-foreground">
         {isDragActive ? "Drop your PDFs here" : "Drag & drop PDF files"}
       </h3>
-      <p className="mt-2 text-sm text-muted">Supports up to 500MB</p>
+      <p className="mt-2 text-sm text-muted">Supports up to 500 MB</p>
 
       <button
         type="button"

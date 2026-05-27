@@ -8,6 +8,7 @@ import AppShell from "../components/AppShell";
 import SizeComparisonBadge from "../components/SizeComparisonBadge";
 import ShortcutHint from "../components/ShortcutHint";
 import { useFileHistory } from "../components/FileHistoryProvider";
+import { formatBytes } from "../lib/format-bytes";
 
 type CompressionLevel = "low" | "medium" | "high";
 type CompressStatus = "idle" | "loading" | "compressing" | "done" | "error";
@@ -18,30 +19,20 @@ const LEVELS: {
   description: string;
   quality: number;
 }[] = [
-  {
-    id: "low",
-    label: "Low compression",
-    description: "Better quality",
-    quality: 0.85,
-  },
-  {
-    id: "medium",
-    label: "Medium compression",
-    description: "Balanced",
-    quality: 0.6,
-  },
-  {
-    id: "high",
-    label: "High compression",
-    description: "Smallest size",
-    quality: 0.35,
-  },
+  { id: "low", label: "Low compression", description: "Better quality", quality: 0.85 },
+  { id: "medium", label: "Medium compression", description: "Balanced", quality: 0.6 },
+  { id: "high", label: "High compression", description: "Smallest size", quality: 0.35 },
 ];
 
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+const MAX_SIZE = 500 * 1024 * 1024;
+
+async function validatePdf(file: File): Promise<boolean> {
+  try {
+    const header = await file.slice(0, 5).text();
+    return header.startsWith("%PDF-");
+  } catch {
+    return false;
+  }
 }
 
 export default function CompressPage() {
@@ -53,8 +44,8 @@ export default function CompressPage() {
   const [progress, setProgress] = useState(0);
   const [compressedBytes, setCompressedBytes] = useState<Uint8Array | null>(null);
   const [compressedSize, setCompressedSize] = useState(0);
-  
-  const { addFile } = useFileHistory();
+
+  const { addFile, pendingFiles, clearPendingFiles } = useFileHistory();
 
   const resetResult = useCallback(() => {
     setCompressedBytes(null);
@@ -76,6 +67,13 @@ export default function CompressPage() {
       setStatus("loading");
       resetResult();
 
+      const valid = await validatePdf(uploaded);
+      if (!valid) {
+        setStatus("error");
+        toast.error("This file is not a valid PDF.");
+        return;
+      }
+
       try {
         const bytes = await uploaded.arrayBuffer();
         setFile(uploaded);
@@ -90,6 +88,15 @@ export default function CompressPage() {
     [resetResult],
   );
 
+  // Auto-load file dropped on HeroDropzone
+  useEffect(() => {
+    if (pendingFiles.length > 0 && !file) {
+      void loadPdf(pendingFiles[0]);
+      clearPendingFiles();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const uploaded = acceptedFiles[0];
@@ -103,8 +110,17 @@ export default function CompressPage() {
     accept: { "application/pdf": [".pdf"] },
     multiple: false,
     maxFiles: 1,
+    maxSize: MAX_SIZE,
     noClick: file !== null,
     noKeyboard: true,
+    onDropRejected: (rejections) => {
+      const err = rejections[0]?.errors[0];
+      if (err?.code === "file-too-large") {
+        toast.error("File exceeds the 500 MB limit.");
+      } else {
+        toast.error(`Only PDF files are accepted. Got: ${rejections[0]?.file.name ?? "unknown"}`);
+      }
+    },
   });
 
   const selectedQuality = LEVELS.find((l) => l.id === level)?.quality ?? 0.6;
@@ -124,12 +140,12 @@ export default function CompressPage() {
       setCompressedSize(result.byteLength);
       setStatus("done");
       toast.success("Compression complete!", { id: "compress" });
-      
+
       addFile({
         filename: file.name,
         size: result.byteLength,
         timestamp: Date.now(),
-        tool: "compress"
+        tool: "compress",
       });
     } catch {
       setStatus("error");
@@ -139,7 +155,7 @@ export default function CompressPage() {
 
   const handleDownload = useCallback(() => {
     if (!compressedBytes || !file) return;
-    const blob = new Blob([compressedBytes as BlobPart], { type: "application/pdf" });
+    const blob = new Blob([new Uint8Array(compressedBytes)], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     const baseName = file.name.replace(/\.pdf$/i, "") || "document";
@@ -147,36 +163,36 @@ export default function CompressPage() {
     anchor.download = `${baseName}-compressed.pdf`;
     anchor.click();
     URL.revokeObjectURL(url);
+    // Free the original ArrayBuffer from memory after successful download
+    setPdfBytes(null);
   }, [compressedBytes, file]);
 
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in an input (though we don't have any here currently)
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      
-      if (e.key.toLowerCase() === 'u' && !file) {
+      if (e.key.toLowerCase() === "u" && !file) {
         e.preventDefault();
         open();
-      } else if (e.key.toLowerCase() === 'd' && status === 'done' && compressedBytes) {
+      } else if (e.key.toLowerCase() === "d" && status === "done" && compressedBytes) {
         e.preventDefault();
         handleDownload();
       }
     };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [file, status, compressedBytes, open, handleDownload]);
 
-  const hasFile = file !== null && pdfBytes !== null;
+  const hasFile = file !== null;
   const isLoading = status === "loading";
   const isCompressing = status === "compressing";
   const isDone = status === "done" && compressedBytes !== null;
-  const canCompress = hasFile && !isCompressing && !isLoading;
+  const isError = status === "error";
+  const canCompress = hasFile && pdfBytes !== null && !isCompressing && !isLoading;
 
   return (
     <AppShell>
-      <div className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:px-6 sm:py-10">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:px-6 sm:py-10">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-compress/10 text-compress">
@@ -211,14 +227,11 @@ export default function CompressPage() {
             <p className="mt-4 text-base font-semibold text-foreground">
               {isDragActive ? "Drop your PDF here" : "Drag & drop a PDF file"}
             </p>
-            <p className="mt-1 text-sm text-muted">Supports up to 500MB</p>
+            <p className="mt-1 text-sm text-muted">Supports up to 500 MB</p>
             <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  open();
-                }}
+                onClick={(e) => { e.stopPropagation(); open(); }}
                 className="inline-flex items-center justify-center rounded-xl bg-compress px-6 py-2.5 text-sm font-semibold text-white shadow-md transition-transform hover:scale-105 active:scale-95"
               >
                 Choose file
@@ -244,9 +257,7 @@ export default function CompressPage() {
                 </svg>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-foreground sm:text-base">
-                  {file.name}
-                </p>
+                <p className="truncate text-sm font-semibold text-foreground sm:text-base">{file.name}</p>
                 <p className="text-xs text-muted sm:text-sm">
                   Original size: <span className="font-medium text-foreground">{formatBytes(originalSize)}</span>
                 </p>
@@ -270,10 +281,7 @@ export default function CompressPage() {
                   <button
                     key={option.id}
                     type="button"
-                    onClick={() => {
-                      setLevel(option.id);
-                      resetResult();
-                    }}
+                    onClick={() => { setLevel(option.id); resetResult(); }}
                     disabled={isCompressing}
                     className={`rounded-xl border px-4 py-4 text-left transition disabled:opacity-60 ${
                       level === option.id
@@ -317,12 +325,37 @@ export default function CompressPage() {
           </div>
         )}
 
+        {isError && (
+          <div className="mt-8 rounded-2xl border border-red-500/30 bg-red-500/5 p-5 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-foreground">Processing failed</p>
+                <p className="mt-1 text-sm text-muted">
+                  The PDF may be encrypted, corrupted, or unsupported. Please try a different file.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={resetAll}
+              className="mt-4 inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-background"
+            >
+              Try another file
+            </button>
+          </div>
+        )}
+
         {isDone && (
           <SizeComparisonBadge originalSize={originalSize} compressedSize={compressedSize} />
         )}
 
         {hasFile && (
-          <div className="mt-8 flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-end">
+          <div className="mt-8 flex w-full flex-col items-center gap-3 pb-20 sm:flex-row sm:justify-end sm:pb-0">
             {isDone ? (
               <>
                 <div className="flex w-full items-center gap-2 sm:w-auto">
@@ -358,7 +391,7 @@ export default function CompressPage() {
             )}
           </div>
         )}
-      </div>
+      </main>
     </AppShell>
   );
 }

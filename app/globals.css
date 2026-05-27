@@ -54,15 +54,13 @@ body {
   transition: background-color 150ms ease, color 150ms ease;
 }
 
-/* ── Demo animation strip ── */
-@keyframes demo-progress {
-  0% { width: 0%; }
-  60% { width: 100%; }
-  100% { width: 100%; }
+/* ── Hide scrollbar utility (replaces styled-jsx in RecentFilesRail) ── */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-
-.animate-demo-progress {
-  animation: demo-progress 3s ease-in-out infinite;
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* ── Smooth scrollbar for dark mode ── */

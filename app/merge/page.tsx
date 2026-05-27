@@ -1,6 +1,5 @@
 "use client";
 
-import { PDFDocument } from "pdf-lib";
 import { useCallback, useRef, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
@@ -8,18 +7,20 @@ import AppShell from "../components/AppShell";
 import SizeComparisonBadge from "../components/SizeComparisonBadge";
 import ShortcutHint from "../components/ShortcutHint";
 import { useFileHistory } from "../components/FileHistoryProvider";
+import { formatBytes } from "../lib/format-bytes";
 
-type PdfItem = {
-  id: string;
-  file: File;
-};
-
+type PdfItem = { id: string; file: File };
 type MergeStatus = "idle" | "merging" | "done" | "error";
 
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+const MAX_SIZE = 500 * 1024 * 1024;
+
+async function validatePdf(file: File): Promise<boolean> {
+  try {
+    const header = await file.slice(0, 5).text();
+    return header.startsWith("%PDF-");
+  } catch {
+    return false;
+  }
 }
 
 export default function MergePage() {
@@ -28,7 +29,7 @@ export default function MergePage() {
   const [progress, setProgress] = useState(0);
   const [mergedBytes, setMergedBytes] = useState<Uint8Array | null>(null);
 
-  const { addFile } = useFileHistory();
+  const { addFile, pendingFiles, clearPendingFiles } = useFileHistory();
 
   const dragIndex = useRef<number | null>(null);
   const dragOverIndex = useRef<number | null>(null);
@@ -42,12 +43,24 @@ export default function MergePage() {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 0) return;
-      const newItems: PdfItem[] = acceptedFiles.map((file) => ({
-        id: crypto.randomUUID(),
-        file,
-      }));
-      setItems((prev) => [...prev, ...newItems]);
-      clearMerged();
+      void (async () => {
+        const validated: File[] = [];
+        for (const f of acceptedFiles) {
+          const ok = await validatePdf(f);
+          if (!ok) {
+            toast.error(`"${f.name}" is not a valid PDF.`);
+            continue;
+          }
+          validated.push(f);
+        }
+        if (validated.length === 0) return;
+        const newItems: PdfItem[] = validated.map((file) => ({
+          id: crypto.randomUUID(),
+          file,
+        }));
+        setItems((prev) => [...prev, ...newItems]);
+        clearMerged();
+      })();
     },
     [clearMerged],
   );
@@ -56,23 +69,39 @@ export default function MergePage() {
     onDrop,
     accept: { "application/pdf": [".pdf"] },
     multiple: true,
+    maxSize: MAX_SIZE,
     noClick: items.length > 0,
     noKeyboard: true,
+    onDropRejected: (rejections) => {
+      const err = rejections[0]?.errors[0];
+      if (err?.code === "file-too-large") {
+        toast.error(`"${rejections[0].file.name}" exceeds the 500 MB limit.`);
+      } else {
+        toast.error(`Only PDF files are accepted. Got: ${rejections[0]?.file.name ?? "unknown"}`);
+      }
+    },
   });
+
+  // Auto-load files dropped on HeroDropzone
+  useEffect(() => {
+    if (pendingFiles.length > 0 && items.length === 0) {
+      const newItems: PdfItem[] = pendingFiles.map((file) => ({
+        id: crypto.randomUUID(),
+        file,
+      }));
+      setItems(newItems);
+      clearPendingFiles();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const removeItem = (id: string) => {
     setItems((prev) => prev.filter((item) => item.id !== id));
     clearMerged();
   };
 
-  const handleDragStart = (index: number) => {
-    dragIndex.current = index;
-  };
-
-  const handleDragEnter = (index: number) => {
-    dragOverIndex.current = index;
-  };
-
+  const handleDragStart = (index: number) => { dragIndex.current = index; };
+  const handleDragEnter = (index: number) => { dragOverIndex.current = index; };
   const handleDragEnd = () => {
     const from = dragIndex.current;
     const to = dragOverIndex.current;
@@ -94,6 +123,8 @@ export default function MergePage() {
 
   const handleMerge = async () => {
     if (items.length < 2) return;
+
+    const { PDFDocument } = await import("pdf-lib");
 
     setStatus("merging");
     setProgress(0);
@@ -117,12 +148,12 @@ export default function MergePage() {
       setMergedBytes(result);
       setStatus("done");
       toast.success("Merge complete!", { id: "merge" });
-      
+
       addFile({
         filename: "merged.pdf",
         size: result.byteLength,
         timestamp: Date.now(),
-        tool: "merge"
+        tool: "merge",
       });
     } catch {
       setStatus("error");
@@ -132,7 +163,7 @@ export default function MergePage() {
 
   const handleDownload = useCallback(() => {
     if (!mergedBytes) return;
-    const blob = new Blob([mergedBytes as BlobPart], { type: "application/pdf" });
+    const blob = new Blob([new Uint8Array(mergedBytes)], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
@@ -144,23 +175,22 @@ export default function MergePage() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      
-      if (e.key.toLowerCase() === 'u') {
+      if (e.key.toLowerCase() === "u") {
         e.preventDefault();
         open();
-      } else if (e.key.toLowerCase() === 'd' && status === 'done' && mergedBytes) {
+      } else if (e.key.toLowerCase() === "d" && status === "done" && mergedBytes) {
         e.preventDefault();
         handleDownload();
       }
     };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [status, mergedBytes, open, handleDownload]);
 
   const canMerge = items.length >= 2 && status !== "merging";
   const isMerging = status === "merging";
   const isDone = status === "done" && mergedBytes !== null;
+  const isError = status === "error";
   const originalSizeSum = items.reduce((sum, item) => sum + item.file.size, 0);
 
   return (
@@ -173,13 +203,9 @@ export default function MergePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Merge PDFs
-            </h1>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Merge PDFs</h1>
           </div>
-          <p className="text-muted">
-            Add files, drag to reorder, then merge — all on your device.
-          </p>
+          <p className="text-muted">Add files, drag to reorder, then merge — all on your device.</p>
         </div>
 
         {/* Upload zone */}
@@ -204,19 +230,14 @@ export default function MergePage() {
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                open();
-              }}
+              onClick={(e) => { e.stopPropagation(); open(); }}
               className="inline-flex items-center justify-center rounded-xl bg-merge px-6 py-2.5 text-sm font-semibold text-white shadow-md transition-transform hover:scale-105 active:scale-95"
             >
               Browse files
             </button>
             <ShortcutHint shortcut="U" label="Press" />
           </div>
-          <p className="mt-4 text-xs text-muted">
-            Add at least 2 PDFs to merge. Files stay on your device.
-          </p>
+          <p className="mt-4 text-xs text-muted">Add at least 2 PDFs to merge. Files stay on your device.</p>
         </div>
 
         {/* File list */}
@@ -228,10 +249,7 @@ export default function MergePage() {
               </h2>
               <button
                 type="button"
-                onClick={() => {
-                  setItems([]);
-                  clearMerged();
-                }}
+                onClick={() => { setItems([]); clearMerged(); }}
                 className="text-sm font-medium text-muted transition hover:text-foreground"
               >
                 Clear all
@@ -260,22 +278,15 @@ export default function MergePage() {
                     </svg>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-foreground sm:text-base">
-                      {item.file.name}
-                    </p>
-                    <p className="text-xs text-muted sm:text-sm">
-                      {formatBytes(item.file.size)}
-                    </p>
+                    <p className="truncate text-sm font-semibold text-foreground sm:text-base">{item.file.name}</p>
+                    <p className="text-xs text-muted sm:text-sm">{formatBytes(item.file.size)}</p>
                   </div>
                   <span className="hidden shrink-0 rounded-full bg-background px-2.5 py-0.5 text-xs font-medium text-muted sm:inline">
                     {index + 1}
                   </span>
                   <button
                     type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeItem(item.id);
-                    }}
+                    onClick={(e) => { e.stopPropagation(); removeItem(item.id); }}
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-muted transition hover:bg-red-500/10 hover:text-red-500"
                     aria-label={`Remove ${item.file.name}`}
                   >
@@ -296,10 +307,23 @@ export default function MergePage() {
               <p className="text-sm font-semibold text-foreground">Merging PDFs… {progress}%</p>
             </div>
             <div className="mt-4 h-2 overflow-hidden rounded-full bg-border">
-              <div
-                className="h-full rounded-full bg-merge transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
+              <div className="h-full rounded-full bg-merge transition-all duration-300" style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+        )}
+
+        {isError && (
+          <div className="mt-8 rounded-2xl border border-red-500/30 bg-red-500/5 p-5 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-semibold text-foreground">Merge failed</p>
+                <p className="mt-1 text-sm text-muted">One or more PDFs may be encrypted or corrupted.</p>
+              </div>
             </div>
           </div>
         )}
@@ -309,7 +333,7 @@ export default function MergePage() {
         )}
 
         {/* Actions */}
-        <div className="mt-8 flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-end">
+        <div className="mt-8 flex w-full flex-col items-center gap-3 pb-20 sm:flex-row sm:justify-end sm:pb-0">
           {isDone ? (
             <>
               <div className="flex w-full items-center gap-2 sm:w-auto">

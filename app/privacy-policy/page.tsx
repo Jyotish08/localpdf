@@ -4,6 +4,7 @@ import AppShell from "../components/AppShell";
 export const metadata: Metadata = {
   title: "Privacy Policy — PDFTools",
   description: "PDFTools privacy policy. We do not collect your files or personal data. Files are processed entirely in your browser.",
+  alternates: { canonical: "https://localpdf.dev/privacy-policy" },
 };
 
 export default function PrivacyPolicyPage() {

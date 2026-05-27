@@ -2,13 +2,8 @@
 
 import { useFileHistory } from "./FileHistoryProvider";
 import { toolAccents } from "../lib/design-system";
+import { formatBytes } from "../lib/format-bytes";
 import Link from "next/link";
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
 
 export default function RecentFilesRail() {
   const { files } = useFileHistory();
@@ -45,7 +40,7 @@ export default function RecentFilesRail() {
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <span className="text-[10px] font-medium text-muted">
-                  {new Date(f.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {new Date(f.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                 </span>
                 <span
                   className="rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
@@ -58,15 +53,6 @@ export default function RecentFilesRail() {
           );
         })}
       </div>
-      <style jsx>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </div>
   );
 }
