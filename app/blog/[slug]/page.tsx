@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import AppShell from "../../components/AppShell";
 
 const posts: Record<
   string,
@@ -261,33 +260,32 @@ function renderContent(content: string) {
 
     if (line.startsWith("## ")) {
       elements.push(
-        <h2 key={i} className="mt-8 mb-3 text-xl font-bold text-slate-900">
+        <h2 key={i} className="mt-8 mb-3 text-xl font-bold text-foreground">
           {line.replace("## ", "")}
         </h2>
       );
     } else if (line.startsWith("### ")) {
       elements.push(
-        <h3 key={i} className="mt-6 mb-2 text-base font-bold text-slate-900">
+        <h3 key={i} className="mt-6 mb-2 text-base font-bold text-foreground">
           {line.replace("### ", "")}
         </h3>
       );
     } else if (line.startsWith("| ")) {
-      // Table
       const tableLines: string[] = [];
       while (i < lines.length && lines[i].startsWith("|")) {
         if (!lines[i].startsWith("|---")) tableLines.push(lines[i]);
         i++;
       }
       elements.push(
-        <div key={`table-${i}`} className="my-4 overflow-x-auto rounded-xl border border-slate-200">
+        <div key={`table-${i}`} className="my-4 overflow-x-auto rounded-xl border border-border bg-card">
           <table className="min-w-full text-sm">
             <tbody>
               {tableLines.map((tl, ti) => {
                 const cells = tl.split("|").filter(Boolean);
                 return (
-                  <tr key={ti} className={ti === 0 ? "bg-teal-50 font-semibold" : "border-t border-slate-100"}>
+                  <tr key={ti} className={ti === 0 ? "bg-accent-light/50 font-semibold" : "border-t border-border"}>
                     {cells.map((cell, ci) => (
-                      <td key={ci} className="px-4 py-2 text-slate-700">{cell.trim()}</td>
+                      <td key={ci} className="px-4 py-3 text-muted">{cell.trim()}</td>
                     ))}
                   </tr>
                 );
@@ -304,7 +302,7 @@ function renderContent(content: string) {
         i++;
       }
       elements.push(
-        <ul key={`ul-${i}`} className="my-3 list-disc list-inside space-y-1 text-slate-700">
+        <ul key={`ul-${i}`} className="my-3 list-disc list-inside space-y-1 text-muted">
           {items.map((item, idx) => (
             <li key={idx} dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }} />
           ))}
@@ -314,12 +312,11 @@ function renderContent(content: string) {
     } else if (line === "") {
       // skip blank lines between paragraphs
     } else {
-      // Paragraph — handle bold
       const html = line.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
       elements.push(
         <p
           key={i}
-          className="my-3 text-slate-700 leading-relaxed"
+          className="my-3 text-muted leading-relaxed"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       );
@@ -338,94 +335,84 @@ export default async function BlogPostPage({
   const post = posts[slug];
   if (!post) notFound();
 
-  const tagColors: Record<string, string> = {
-    Compress: "bg-teal-100 text-teal-700",
-    Merge: "bg-violet-100 text-violet-700",
-    Split: "bg-amber-100 text-amber-700",
-    Privacy: "bg-red-100 text-red-700",
-    Guide: "bg-blue-100 text-blue-700",
-    Tips: "bg-emerald-100 text-emerald-700",
-  };
-
   return (
-    <div className="flex min-h-full flex-col bg-slate-50">
-      <Navbar />
-      <main className="flex-1 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          {/* Back */}
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 transition hover:text-teal-600 mb-8"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-            Back to Blog
-          </Link>
+    <AppShell>
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        {/* Back */}
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-muted transition hover:text-accent mb-8"
+        >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          Back to Blog
+        </Link>
 
-          {/* Article */}
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
-            {/* Meta */}
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${tagColors[post.tag] ?? "bg-slate-100 text-slate-700"}`}>
-                {post.tag}
-              </span>
-              <span className="text-sm text-slate-400">{post.date}</span>
-              <span className="text-sm text-slate-400">·</span>
-              <span className="text-sm text-slate-400">{post.readTime}</span>
+        {/* Article */}
+        <article className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-10">
+          {/* Meta */}
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <span className="inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold bg-accent-light text-accent">
+              {post.tag}
+            </span>
+            <span className="text-sm text-muted">{post.date}</span>
+            <span className="text-sm text-muted">·</span>
+            <span className="text-sm text-muted">{post.readTime}</span>
+          </div>
+
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl mb-4">
+            {post.title}
+          </h1>
+
+          {/* Author */}
+          <div className="flex items-center gap-3 border-b border-border pb-6 mb-6">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white text-xs font-bold">
+              PT
             </div>
-
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl mb-4">
-              {post.title}
-            </h1>
-
-            {/* Author */}
-            <div className="flex items-center gap-3 border-b border-slate-100 pb-6 mb-6">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 text-white text-xs font-bold">
-                PT
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-slate-900">PDFTools Team</p>
-                <p className="text-xs text-slate-500">pdftools.app</p>
-              </div>
+            <div>
+              <p className="text-sm font-semibold text-foreground">PDFTools Team</p>
+              <p className="text-xs text-muted">pdftools.app</p>
             </div>
+          </div>
 
-            {/* Content */}
-            <div className="prose-like">
-              {renderContent(post.content)}
-            </div>
-          </article>
+          {/* Content */}
+          <div className="prose-like text-foreground">
+            {renderContent(post.content)}
+          </div>
+        </article>
 
-          {/* Related tools */}
-          <div className="mt-10">
-            <h2 className="text-lg font-bold text-slate-900 mb-5">Try our free PDF tools</h2>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {[
-                { href: "/compress", label: "Compress PDF", desc: "Reduce file size", accent: "from-teal-500 to-emerald-600" },
-                { href: "/merge", label: "Merge PDFs", desc: "Combine into one", accent: "from-violet-500 to-purple-600" },
-                { href: "/split", label: "Split PDF", desc: "Extract pages", accent: "from-amber-500 to-orange-600" },
-              ].map((tool) => (
-                <Link
-                  key={tool.href}
-                  href={tool.href}
-                  className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        {/* Related tools */}
+        <div className="mt-10">
+          <h2 className="text-lg font-bold text-foreground mb-5">Try our free PDF tools</h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              { href: "/compress", label: "Compress PDF", desc: "Reduce file size", varName: "--compress" },
+              { href: "/merge", label: "Merge PDFs", desc: "Combine into one", varName: "--merge" },
+              { href: "/split", label: "Split PDF", desc: "Extract pages", varName: "--split" },
+            ].map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="group flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div 
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white shadow-sm"
+                  style={{ backgroundColor: `var(${tool.varName})` }}
                 >
-                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${tool.accent} text-white shadow-sm`}>
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900 group-hover:text-teal-700 transition-colors">{tool.label}</p>
-                    <p className="text-xs text-slate-500">{tool.desc}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground transition-colors group-hover:opacity-80">{tool.label}</p>
+                  <p className="text-xs text-muted">{tool.desc}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
+    </AppShell>
   );
 }

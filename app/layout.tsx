@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "./components/ThemeProvider";
+import FileHistoryProvider from "./components/FileHistoryProvider";
+import ToastManager from "./components/ToastManager";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -61,8 +64,31 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} h-full scroll-smooth antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col font-sans">
+        <ThemeProvider>
+          <FileHistoryProvider>
+            {children}
+            <ToastManager />
+          </FileHistoryProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

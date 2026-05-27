@@ -1,329 +1,190 @@
-import Link from "next/link";
+"use client";
 
-const tools = [
-  {
-    name: "Compress",
-    description: "Shrink file size without uploading to a server.",
-    href: "/compress",
-    icon: (
-      <svg
-        className="h-7 w-7"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        aria-hidden
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12M12 16.5V3"
-        />
-      </svg>
-    ),
-    accent: "from-teal-500 to-emerald-600",
-    ring: "group-hover:ring-teal-200",
-  },
-  {
-    name: "Merge",
-    description: "Combine multiple PDFs into one document.",
-    href: "/merge",
-    icon: (
-      <svg
-        className="h-7 w-7"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        aria-hidden
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-        />
-      </svg>
-    ),
-    accent: "from-violet-500 to-purple-600",
-    ring: "group-hover:ring-violet-200",
-  },
-  {
-    name: "Split",
-    description: "Extract pages or divide a PDF into parts.",
-    href: "/split",
-    icon: (
-      <svg
-        className="h-7 w-7"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        aria-hidden
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
-        />
-      </svg>
-    ),
-    accent: "from-amber-500 to-orange-600",
-    ring: "group-hover:ring-amber-200",
-  },
-] as const;
+import AppShell from "./components/AppShell";
+import HeroDropzone from "./components/HeroDropzone";
+import ToolCard from "./components/ToolCard";
+import FeatureBox from "./components/FeatureBox";
+import PrivacyBanner from "./components/PrivacyBanner";
+import RecentFilesRail from "./components/RecentFilesRail";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex min-h-full flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 text-sm font-bold text-white shadow-md shadow-teal-500/25">
-              PDF
-            </span>
-            <span className="text-lg font-semibold tracking-tight text-slate-900">
-              PDFTools
-            </span>
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 sm:flex">
-            <a href="#tools" className="transition-colors hover:text-teal-600">
-              Tools
-            </a>
-            <a href="#privacy" className="transition-colors hover:text-teal-600">
-              Privacy
-            </a>
-          </nav>
-        </div>
-      </header>
-
-      <main className="flex-1">
-        {/* Hero */}
-        <section className="relative overflow-hidden px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8">
-          <div
-            className="pointer-events-none absolute inset-0 -z-10"
-            aria-hidden
-          >
-            <div className="absolute left-1/2 top-0 h-[480px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-teal-100/80 via-emerald-50/50 to-transparent blur-3xl" />
-            <div className="absolute -right-24 top-32 h-64 w-64 rounded-full bg-violet-100/60 blur-3xl" />
-            <div className="absolute -left-16 bottom-0 h-48 w-48 rounded-full bg-amber-100/50 blur-3xl" />
-          </div>
-
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-200/80 bg-teal-50 px-4 py-1.5 text-sm font-medium text-teal-800">
+    <AppShell>
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* HERO SECTION */}
+        <section className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div>
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-4 py-1.5 text-sm font-semibold text-success">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
               </span>
-              100% client-side · No uploads
+              100% Local Processing
             </div>
-
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl lg:leading-[1.1]">
-              Files never leave{" "}
-              <span className="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
-                your device
-              </span>
+            <h1 className="text-4xl font-black tracking-tight text-foreground sm:text-5xl lg:text-[56px] lg:leading-[1.1]">
+              All-in-one PDF tools. <span className="text-accent">Fast.</span> Private. <span className="text-accent">Local.</span>
             </h1>
-
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-slate-600 sm:text-xl">
-              Compress, merge, and split PDFs right in your browser. Fast,
-              free, and private — your documents stay on your machine.
+            <p className="mt-6 text-lg leading-relaxed text-muted sm:text-xl">
+              Your files never leave your device. Process PDFs instantly in your browser without uploading them to any server.
             </p>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <a
-                href="#tools"
-                className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-teal-500/30 transition hover:from-teal-500 hover:to-emerald-500 sm:w-auto"
-              >
-                Choose a tool
-              </a>
-              <a
-                href="#privacy"
-                className="inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-8 py-3.5 text-base font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 sm:w-auto"
-              >
-                How we protect you
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* Tools */}
-        <section
-          id="tools"
-          className="border-t border-slate-200/80 bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
-        >
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-10 text-center sm:mb-14">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                Everything you need
-              </h2>
-              <p className="mt-3 text-slate-600">
-                Pick a tool to get started — no account required.
-              </p>
-            </div>
-
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {tools.map((tool) => (
-                <Link
-                  key={tool.name}
-                  href={tool.href}
-                  className={`group relative flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg hover:ring-4 ${tool.ring}`}
+            <div className="mt-8 flex flex-wrap gap-3">
+              {["No Uploads", "No Servers", "No Tracking"].map((pill) => (
+                <span
+                  key={pill}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-card px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm ring-1 ring-border"
                 >
-                  <div
-                    className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${tool.accent} text-white shadow-md`}
-                  >
-                    {tool.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-slate-900">
-                    {tool.name}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
-                    {tool.description}
-                  </p>
-                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-teal-600 transition group-hover:gap-2">
-                    Open tool
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      aria-hidden
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                      />
-                    </svg>
-                  </span>
-                </Link>
+                  <svg className="h-4 w-4 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  {pill}
+                </span>
               ))}
             </div>
+            
+            <div className="mt-8 flex items-center gap-3">
+              <div className="flex text-amber-400">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-sm font-medium text-muted">Loved by thousands</p>
+            </div>
           </div>
+          
+          <HeroDropzone />
         </section>
 
-        {/* Privacy highlight */}
-        <section
-          id="privacy"
-          className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
-        >
-          <div className="mx-auto max-w-4xl rounded-2xl border border-teal-200/60 bg-gradient-to-br from-teal-50 to-emerald-50/80 p-8 sm:p-10">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-10">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white text-teal-600 shadow-sm">
-                <svg
-                  className="h-8 w-8"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                  aria-hidden
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                  />
+        {/* RECENT FILES RAIL */}
+        <RecentFilesRail />
+
+        {/* THREE TOOL CARDS */}
+        <section className="mt-24">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Everything you need
+          </h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <ToolCard
+              tool="compress"
+              title="Compress PDF"
+              description="Reduce PDF file size without losing quality. Perfect for email attachments."
+              tag="Fast & Efficient"
+              href="/compress"
+              icon={
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
                 </svg>
+              }
+            />
+            <ToolCard
+              tool="merge"
+              title="Merge PDFs"
+              description="Combine multiple PDFs into a single document. Reorder pages instantly."
+              tag="Easy & Secure"
+              href="/merge"
+              icon={
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                </svg>
+              }
+            />
+            <ToolCard
+              tool="split"
+              title="Split PDF"
+              description="Extract specific pages or split a PDF into multiple separate documents."
+              tag="Precise & Simple"
+              href="/split"
+              icon={
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+                </svg>
+              }
+            />
+          </div>
+        </section>
+
+        {/* LIVE DEMO STRIP */}
+        <section className="mt-24">
+          <div className="overflow-hidden rounded-3xl border border-border bg-card p-1 shadow-sm">
+            <div className="flex flex-col items-center justify-between gap-6 rounded-2xl bg-background px-6 py-8 sm:flex-row sm:px-10">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-light text-accent">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-bold text-foreground">report_final.pdf</p>
+                  <p className="text-sm font-medium text-muted line-through">12.4 MB</p>
+                </div>
               </div>
-              <div>
-                <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
-                  Privacy by design
-                </h2>
-                <p className="mt-2 text-slate-600 leading-relaxed">
-                  PDFTools runs entirely in your browser using Web APIs. We
-                  never see, store, or transmit your files. Close the tab and
-                  your data is gone.
-                </p>
+
+              <div className="flex-1 w-full max-w-sm px-4">
+                <div className="flex items-center justify-between text-xs font-bold text-accent mb-2">
+                  <span>Compressing...</span>
+                  <span>75%</span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-accent-light">
+                  <div className="h-full rounded-full bg-accent animate-demo-progress" />
+                </div>
+              </div>
+
+              <div className="text-center sm:text-right">
+                <p className="text-2xl font-black text-success">2.1 MB</p>
+                <p className="text-sm font-bold text-success">Saved 83%</p>
               </div>
             </div>
           </div>
         </section>
-      </main>
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200 bg-slate-900 text-slate-300">
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <div className="flex items-center gap-2.5">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600 text-xs font-bold text-white">
-                  PDF
-                </span>
-                <span className="text-lg font-semibold text-white">
-                  PDFTools
-                </span>
-              </div>
-              <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-400">
-                Simple PDF utilities that respect your privacy. Built for the
-                web, powered by your device.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-8 sm:gap-16">
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-                  Tools
-                </h3>
-                <ul className="mt-4 space-y-2 text-sm">
-                  <li>
-                    <Link
-                      href="/compress"
-                      className="transition hover:text-white"
-                    >
-                      Compress
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/merge" className="transition hover:text-white">
-                      Merge
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/split" className="transition hover:text-white">
-                      Split
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-                  Legal
-                </h3>
-                <ul className="mt-4 space-y-2 text-sm">
-                  <li>
-                    <span className="text-slate-500">Privacy Policy</span>
-                  </li>
-                  <li>
-                    <span className="text-slate-500">Terms of Use</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
+        {/* FOUR FEATURE BOXES */}
+        <section className="mt-24">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <FeatureBox
+              title="No Uploads"
+              description="Files are processed locally in your browser. We never see your data."
+              icon={
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                </svg>
+              }
+            />
+            <FeatureBox
+              title="No Watermark"
+              description="We never add watermarks to your documents. The output is entirely yours."
+              icon={
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              }
+            />
+            <FeatureBox
+              title="Works Offline"
+              description="Once loaded, our tools work perfectly even without an internet connection."
+              icon={
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+                </svg>
+              }
+            />
+            <FeatureBox
+              title="Fast on Mobile"
+              description="Optimized to run smoothly on smartphones, tablets, and older devices."
+              icon={
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                </svg>
+              }
+            />
           </div>
+        </section>
 
-          <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-8 text-sm text-slate-500 sm:flex-row">
-            <p>© {new Date().getFullYear()} PDFTools. All rights reserved.</p>
-            <p className="flex items-center gap-1.5">
-              <svg
-                className="h-4 w-4 text-teal-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-                aria-hidden
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
-                />
-              </svg>
-              Your files stay on your device
-            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+        {/* PRIVACY CTA BANNER */}
+        <section className="mt-24 mb-12">
+          <PrivacyBanner />
+        </section>
+      </div>
+    </AppShell>
   );
 }

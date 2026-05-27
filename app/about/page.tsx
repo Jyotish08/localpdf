@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import AppShell from "../components/AppShell";
 
 export const metadata: Metadata = {
   title: "About — PDFTools",
@@ -74,155 +73,114 @@ const features = [
 
 export default function AboutPage() {
   return (
-    <div className="flex min-h-full flex-col bg-slate-50">
-      <Navbar />
-
-      <main className="flex-1">
-        {/* Hero */}
-        <section className="relative overflow-hidden px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8">
-          <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
-            <div className="absolute left-1/2 top-0 h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-gradient-to-b from-teal-100/80 via-emerald-50/50 to-transparent blur-3xl" />
+    <AppShell>
+      {/* Hero */}
+      <section className="relative overflow-hidden px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8">
+        <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+          <div className="absolute left-1/2 top-0 h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-accent-light/50 blur-3xl" />
+        </div>
+        <div className="mx-auto max-w-3xl text-center">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-4 py-1.5 text-sm font-medium text-success">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+            </span>
+            Free · Private · No Sign-up
           </div>
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-teal-200/80 bg-teal-50 px-4 py-1.5 text-sm font-medium text-teal-800">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-500" />
-              </span>
-              Free · Private · No Sign-up
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-              About{" "}
-              <span className="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
-                PDFTools
-              </span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">
-              PDFTools is a free, browser-based PDF utility suite that gives you
-              professional document tools without compromising your privacy. Your
-              files never leave your device — period.
+          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            About <span className="text-accent">PDFTools</span>
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+            PDFTools is a free, browser-based PDF utility suite that gives you professional document tools without compromising your privacy. Your files never leave your device — period.
+          </p>
+        </div>
+      </section>
+
+      {/* Mission */}
+      <section className="border-t border-border bg-card px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-4xl">
+          <div className="rounded-3xl border border-accent/20 bg-accent-light/30 p-8 sm:p-12">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Our Mission</h2>
+            <p className="mt-4 text-lg leading-relaxed text-muted">
+              We believe powerful PDF tools should be accessible to everyone — a student in Jaipur submitting their college project, a freelancer in Mumbai sending a polished proposal, or an office worker anywhere in the world managing large document archives.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-muted">
+              Most online PDF tools require uploading your sensitive documents to unknown servers. We built PDFTools differently: every operation — compression, merging, splitting — runs entirely in your browser using modern Web APIs. Close the tab, and your data is gone. It&apos;s not stored anywhere because it was never sent anywhere.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-muted">
+              Our mission is to be the most trusted, most private, and most accessible PDF toolkit on the web — completely free, forever.
             </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Mission */}
-        <section className="border-t border-slate-200/80 bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <div className="mx-auto max-w-4xl">
-            <div className="rounded-2xl border border-teal-200/60 bg-gradient-to-br from-teal-50 to-emerald-50/80 p-8 sm:p-12">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                Our Mission
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed text-slate-700">
-                We believe powerful PDF tools should be accessible to everyone —
-                a student in Jaipur submitting their college project, a
-                freelancer in Mumbai sending a polished proposal, or an office
-                worker anywhere in the world managing large document archives.
-              </p>
-              <p className="mt-4 text-lg leading-relaxed text-slate-700">
-                Most online PDF tools require uploading your sensitive documents
-                to unknown servers. We built PDFTools differently: every
-                operation — compression, merging, splitting — runs entirely in
-                your browser using modern Web APIs. Close the tab, and your data
-                is gone. It&apos;s not stored anywhere because it was never sent
-                anywhere.
-              </p>
-              <p className="mt-4 text-lg leading-relaxed text-slate-700">
-                Our mission is to be the most trusted, most private, and most
-                accessible PDF toolkit on the web — completely free, forever.
-              </p>
-            </div>
+      {/* Features */}
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Why choose PDFTools?</h2>
+            <p className="mt-3 text-muted">Everything you need, nothing you don&apos;t.</p>
           </div>
-        </section>
-
-        {/* Features */}
-        <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-12 text-center">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                Why choose PDFTools?
-              </h2>
-              <p className="mt-3 text-slate-600">
-                Everything you need, nothing you don&apos;t.
-              </p>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((f) => (
-                <div
-                  key={f.title}
-                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-md shadow-teal-500/20">
-                    {f.icon}
-                  </div>
-                  <h3 className="text-base font-semibold text-slate-900">{f.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{f.description}</p>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f) => (
+              <div key={f.title} className="rounded-2xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-white shadow-md shadow-accent/20">
+                  {f.icon}
                 </div>
-              ))}
-            </div>
+                <h3 className="text-base font-semibold text-foreground">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{f.description}</p>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Who we serve */}
-        <section className="border-t border-slate-200/80 bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <div className="mx-auto max-w-4xl text-center">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-              Built for India &amp; the world
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-slate-600 leading-relaxed">
-              With over 500 million internet users, India has a huge need for
-              reliable, free productivity tools. PDFTools was built with India in
-              mind — fast on low-bandwidth connections, works on mid-range
-              Android browsers, and never requires an account or subscription.
-              But our tools are equally useful for anyone, anywhere in the world.
-            </p>
-            <div className="mt-10 grid grid-cols-3 gap-6">
-              {[
-                { label: "Students", emoji: "🎓", desc: "Submit assignments, convert notes, shrink file sizes for email" },
-                { label: "Freelancers", emoji: "💼", desc: "Merge invoices, split contracts, compress proposals" },
-                { label: "Office Workers", emoji: "🏢", desc: "Manage large PDF archives, split reports, combine documents" },
-              ].map((g) => (
-                <div key={g.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-                  <div className="text-3xl">{g.emoji}</div>
-                  <h3 className="mt-3 font-semibold text-slate-900">{g.label}</h3>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">{g.desc}</p>
-                </div>
-              ))}
-            </div>
+      {/* Who we serve */}
+      <section className="border-t border-border bg-card px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Built for India &amp; the world</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-muted leading-relaxed">
+            With over 500 million internet users, India has a huge need for reliable, free productivity tools. PDFTools was built with India in mind — fast on low-bandwidth connections, works on mid-range Android browsers, and never requires an account or subscription. But our tools are equally useful for anyone, anywhere in the world.
+          </p>
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {[
+              { label: "Students", emoji: "🎓", desc: "Submit assignments, convert notes, shrink file sizes for email" },
+              { label: "Freelancers", emoji: "💼", desc: "Merge invoices, split contracts, compress proposals" },
+              { label: "Office Workers", emoji: "🏢", desc: "Manage large PDF archives, split reports, combine documents" },
+            ].map((g) => (
+              <div key={g.label} className="rounded-2xl border border-border bg-background p-6">
+                <div className="text-3xl">{g.emoji}</div>
+                <h3 className="mt-3 font-semibold text-foreground">{g.label}</h3>
+                <p className="mt-2 text-sm text-muted leading-relaxed">{g.desc}</p>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Contact */}
-        <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <div className="mx-auto max-w-xl text-center">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-              Get in touch
-            </h2>
-            <p className="mt-4 text-slate-600 leading-relaxed">
-              Have a suggestion, found a bug, or want to collaborate? We&apos;d
-              love to hear from you.
-            </p>
-            <div className="mt-6 flex flex-col items-center gap-4">
-              <a
-                href="mailto:hello@pdftools.app"
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-teal-500/30 transition hover:from-teal-500 hover:to-emerald-500"
-              >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                </svg>
-                hello@pdftools.app
-              </a>
-              <Link
-                href="/contact"
-                className="text-sm font-medium text-teal-600 transition hover:text-teal-700 hover:underline"
-              >
-                Or use our contact form →
-              </Link>
-            </div>
+      {/* Contact */}
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-xl text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Get in touch</h2>
+          <p className="mt-4 text-muted leading-relaxed">
+            Have a suggestion, found a bug, or want to collaborate? We&apos;d love to hear from you.
+          </p>
+          <div className="mt-6 flex flex-col items-center gap-4">
+            <a
+              href="mailto:hello@pdftools.app"
+              className="inline-flex items-center gap-2 rounded-xl bg-accent px-8 py-3.5 text-base font-semibold text-white shadow-lg transition hover:bg-accent/90"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+              hello@pdftools.app
+            </a>
+            <Link href="/contact" className="text-sm font-medium text-accent transition hover:underline">
+              Or use our contact form →
+            </Link>
           </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
+        </div>
+      </section>
+    </AppShell>
   );
 }

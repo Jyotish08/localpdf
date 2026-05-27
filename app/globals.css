@@ -1,23 +1,49 @@
 @import "tailwindcss";
 
+/* ── Light Mode (default) ── */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --accent: #0d9488;
-  --accent-light: #ccfbf1;
-  --card: #ffffff;
-  --muted: #64748b;
-  --border: #e2e8f0;
+  --background: #FFFFFF;
+  --foreground: #0F0F0F;
+  --card: #F7F7F8;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --accent: #3B3BFF;
+  --accent-light: #EBEBFF;
+  --success: #22C55E;
+  --compress: #FF4D4D;
+  --merge: #3B82F6;
+  --split: #10B981;
+  color-scheme: light;
+}
+
+/* ── Dark Mode ── */
+.dark {
+  --background: #0A0A0B;
+  --foreground: #F5F5F5;
+  --card: #141416;
+  --muted: #9CA3AF;
+  --border: #27272A;
+  --accent: #6366F1;
+  --accent-light: #1E1E3F;
+  --success: #22C55E;
+  --compress: #FF6B6B;
+  --merge: #60A5FA;
+  --split: #34D399;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
-  --color-accent-light: var(--accent-light);
   --color-card: var(--card);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-success: var(--success);
+  --color-compress: var(--compress);
+  --color-merge: var(--merge);
+  --color-split: var(--split);
   --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
@@ -25,4 +51,28 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+/* ── Demo animation strip ── */
+@keyframes demo-progress {
+  0% { width: 0%; }
+  60% { width: 100%; }
+  100% { width: 100%; }
+}
+
+.animate-demo-progress {
+  animation: demo-progress 3s ease-in-out infinite;
+}
+
+/* ── Smooth scrollbar for dark mode ── */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #141416;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 4px;
 }
