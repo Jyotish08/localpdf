@@ -1,28 +1,34 @@
-/** PDFTools Design System Tokens */
+/** Localpdf design tokens */
 
 export const colors = {
-  bg: "#FFFFFF",
-  bgDark: "#0A0A0B",
-  card: "#F7F7F8",
-  cardDark: "#141416",
-  text: "#0F0F0F",
-  textDark: "#F5F5F5",
-  muted: "#6B7280",
-  mutedDark: "#9CA3AF",
-  border: "#E5E7EB",
-  borderDark: "#27272A",
-  accent: "#3B3BFF",
-  accentLight: "#EBEBFF",
-  success: "#22C55E",
-  compress: "#FF4D4D",
-  merge: "#3B82F6",
-  split: "#10B981",
+  bg: "#080D14",
+  surface: "#111827",
+  surface2: "#1F2D3D",
+  green: "#00E676",
+  greenDark: "#00C853",
+  greenDim: "#00A854",
+  greenTint: "#0F1A0F",
+  white: "#FFFFFF",
+  body: "#CBD5E1",
+  muted: "#64748B",
 } as const;
 
 export const toolAccents = {
-  compress: { color: colors.compress, bg: "#FFF1F1", bgDark: "#2D1616", label: "Compress" },
-  merge: { color: colors.merge, bg: "#EFF6FF", bgDark: "#162038", label: "Merge" },
-  split: { color: colors.split, bg: "#ECFDF5", bgDark: "#0D2818", label: "Split" },
+  compress: { color: colors.green, bg: "#0F2A1A", label: "Compress" },
+  merge: { color: "#9B59B6", bg: "#1A0F2A", label: "Merge" },
+  split: { color: "#3498DB", bg: "#0F1A2A", label: "Split" },
 } as const;
 
 export type ToolName = keyof typeof toolAccents;
+
+export type HomeToolId = ToolName | "jpg2pdf" | "pdf2jpg" | "watermark" | "signature";
+
+export const homeToolRoutes: Partial<Record<HomeToolId, string>> = {
+  compress: "/compress",
+  merge: "/merge",
+  split: "/split",
+  jpg2pdf: "/jpg-to-pdf",
+  pdf2jpg: "/pdf-to-jpg",
+  watermark: "/watermark",
+  signature: "/signature",
+};

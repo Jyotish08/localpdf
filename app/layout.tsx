@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "./components/ThemeProvider";
 import FileHistoryProvider from "./components/FileHistoryProvider";
 import ToastManager from "./components/ToastManager";
 import CookieConsent from "./components/CookieConsent";
 
-const inter = Inter({
-  variable: "--font-inter",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "LocalPDF — Free Online PDF Tools | Compress Merge Split",
-    template: "%s | LocalPDF",
+    default: "Localpdf — Your PDFs. Done in Seconds. Right in Your Browser.",
+    template: "%s | Localpdf",
   },
   description:
     "Free online PDF tools that work entirely in your browser. Compress, merge, and split PDFs instantly with no uploads, no registration, and no data stored.",
@@ -73,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full scroll-smooth antialiased`}
+      className={`${jakarta.variable} h-full scroll-smooth antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -81,10 +82,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark')
+                if (localStorage.theme === 'light') {
+                  document.documentElement.classList.add('light')
                 } else {
-                  document.documentElement.classList.remove('dark')
+                  document.documentElement.classList.remove('light')
                 }
               } catch (_) {}
             `,

@@ -12,8 +12,8 @@ interface ThemeCtx {
 }
 
 const Ctx = createContext<ThemeCtx>({
-  theme: "system",
-  resolved: "light",
+  theme: "dark",
+  resolved: "dark",
   setTheme: () => {},
   toggle: () => {},
 });
@@ -23,39 +23,42 @@ export function useTheme() {
 }
 
 function getSystemPref(): "light" | "dark" {
-  if (typeof window === "undefined") return "light";
+  if (typeof window === "undefined") return "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("system");
-  const [resolved, setResolved] = useState<"light" | "dark">("light");
+  const [theme, setThemeState] = useState<Theme>("dark");
+  const [resolved, setResolved] = useState<"light" | "dark">("dark");
 
   const apply = useCallback((t: Theme) => {
     const r = t === "system" ? getSystemPref() : t;
     setResolved(r);
-    document.documentElement.classList.toggle("dark", r === "dark");
+    document.documentElement.classList.toggle("light", r === "light");
   }, []);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme") as Theme | null;
-    const t = stored || "system";
+    const t = stored || "dark";
     setThemeState(t);
     apply(t);
 
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => {
-      if ((localStorage.getItem("theme") || "system") === "system") apply("system");
+      if ((localStorage.getItem("theme") || "dark") === "system") apply("system");
     };
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, [apply]);
 
-  const setTheme = useCallback((t: Theme) => {
-    setThemeState(t);
-    localStorage.setItem("theme", t);
-    apply(t);
-  }, [apply]);
+  const setTheme = useCallback(
+    (t: Theme) => {
+      setThemeState(t);
+      localStorage.setItem("theme", t);
+      apply(t);
+    },
+    [apply],
+  );
 
   const toggle = useCallback(() => {
     setTheme(resolved === "dark" ? "light" : "dark");
